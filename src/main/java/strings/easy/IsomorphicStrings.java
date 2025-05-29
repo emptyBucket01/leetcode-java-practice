@@ -1,37 +1,35 @@
 package strings.easy;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class IsomorphicStrings {
 
-    private IsomorphicStrings() {
-    }
+    /*
+     Problem: https://leetcode.com/problems/longest-common-prefix/description/
+     Level: Easy
+    */
+    public static boolean isIsomorphic(String s, String t) {
+        if (s.length() != t.length()) return false;
 
-/*
-  Problem: https://leetcode.com/problems/two-sum/
-  Level: Easy
- */
+            Map<Character, Character> pairs = new HashMap<>();
+            Map<Character, Character> pairs2 = new HashMap<>();
+            for (int i = 0; i < s.length(); i++) {
+                if (pairs.containsKey(s.charAt(i)) && pairs.get(s.charAt(i)) != t.charAt(i)) {
+                        return false;
+                    }
 
-    public static String longestCommonPrefix(String[] strs) {
-        if (strs == null || strs.length == 0) return "";
-        var prefix = strs[0];
-        for (String s : strs) {
-            while (s.indexOf(prefix) != 0) {
-                prefix = prefix.substring(0, prefix.length() - 1);
+                if (pairs2.containsKey(t.charAt(i)) && pairs2.get(t.charAt(i)) != s.charAt(i)) {
+                        return false;
+                    }
+
+                pairs.put(s.charAt(i), t.charAt(i));
+                pairs2.put(t.charAt(i), s.charAt(i));
             }
+            return true;
         }
-        return prefix;
-    }
 
-    public static String longestCommonPrefixFirst(String[] strs) {
-        if (strs == null || strs.length == 0)
-            return "";
-        for (int i = 0; i < strs[0].length(); i++) {
-            char c = strs[0].charAt(i);
-            for (int j = 1; j < strs.length; j++) {
-                if (i >= strs[j].length() || strs[j].charAt(i) != c) {
-                    return strs[0].substring(0, i);
-                }
-            }
-        }
-        return strs[0];
+    public static void main(String[] args) {
+        System.out.print(isIsomorphic("paper", "title"));
     }
 }
